@@ -1,0 +1,370 @@
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/execution/1> a prov:Activity ;
+    prov:generated <http://example.org/code/1> ;
+    prov:used <http://example.org/epoch/Wed_10_Jul_2024_11_05_57_GMT>,
+        <http://example.org/epoch/Wed_10_Jul_2024_11_08_09_GMT>,
+        <http://example.org/epoch/Wed_10_Jul_2024_11_11_48_GMT>,
+        <http://example.org/import/_>,
+        <http://example.org/import/crim_intervals>,
+        <http://example.org/import/os>,
+        <http://example.org/import/requests> .
+
+<http://example.org/execution/2> a prov:Activity ;
+    prov:generated <http://example.org/code/2> ;
+    prov:used <http://example.org/epoch/Wed_10_Jul_2024_11_05_57_GMT>,
+        <http://example.org/epoch/Wed_10_Jul_2024_11_08_09_GMT>,
+        <http://example.org/epoch/Wed_10_Jul_2024_11_11_48_GMT>,
+        <http://example.org/import/_>,
+        <http://example.org/import/crim_intervals>,
+        <http://example.org/import/os>,
+        <http://example.org/import/requests> .
+
+<http://example.org/code/1> a prov:Entity ;
+    prov:value """import requests
+import os
+import crim_intervals
+from crim_intervals import *
+from crim_intervals import main_objs
+import crim_intervals.visualizations as viz
+
+
+# Define the base URL of your Invenio instance
+base_url = 'https://test.researchdata.tuwien.ac.at/api/records/'
+
+# Define the record ID you want to fetch
+record_id = '/drg37-1w668/files'
+
+# Your authentication token
+token = 'kwPkteIK7e6IsoVWh1DoG5IY2INb1LRw3QdWAqeWkjS7BUMVc9gQY2jEbL6e'
+
+# Define the headers including the Authorization token
+headers = {
+    'Authorization': f'Bearer {token}',
+    'Content-Type': 'application/json'
+}
+
+# Make a GET request to fetch the record
+response = requests.get(f'{base_url}{record_id}', headers=headers)
+
+# Check if the request was successful
+if response.status_code == 200:
+    data = response.json()
+    entries = data.get('entries')
+    # URL to the file content
+    for entry in entries:
+        file_url = entry['links']['content']
+
+        piece = importScore(file_url)
+
+
+        cadences = piece.cadences()
+        cadences
+
+
+
+        # Local file path to save the downloaded file
+        local_filename = os.path.join('data', entry['key'])
+
+        # Send a GET request to the URL
+        response = requests.get(file_url, stream=True)
+
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Open the local file in binary write mode
+            with open(local_filename, 'wb') as f:
+                # Write the content of the response to the file
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            print(f"File downloaded successfully and saved as {local_filename}")
+        else:
+            print(f"Failed to download file. Status code: {response.status_code}")
+else:
+    print(f'Failed to fetch data: {response.status_code}')
+""",
+        """import requests
+import os
+import crim_intervals
+from crim_intervals import *
+from crim_intervals import main_objs
+import crim_intervals.visualizations as viz
+
+# Define the base URL of your Invenio instance
+base_url = 'https://test.researchdata.tuwien.ac.at/api/records/'
+
+# Define the record ID you want to fetch
+record_id = 'drg37-1w668/files'
+
+# Your authentication token
+token = 'kwPkteIK7e6IsoVWh1DoG5IY2INb1LRw3QdWAqeWkjS7BUMVc9gQY2jEbL6e'
+
+# Define the headers including the Authorization token
+headers = {
+    'Authorization': f'Bearer {token}',
+    'Content-Type': 'application/json'
+}
+
+# Make a GET request to fetch the record
+response = requests.get(f'{base_url}{record_id}', headers=headers)
+
+# Check if the request was successful
+if response.status_code == 200:
+    data = response.json()
+    entries = data.get('entries', [])
+    
+    # Create the directory if it doesn't exist
+    os.makedirs('downloaded_files', exist_ok=True)
+
+    # Download and save each file
+    for entry in entries:
+        file_url = entry['links']['content']
+        
+        # Get the filename from the URL
+        filename = os.path.join('downloaded_files', file_url.split('/')[-1])
+        
+        # Download the file
+        file_response = requests.get(file_url, headers=headers)
+        
+        # Save the file
+        if file_response.status_code == 200:
+            with open(filename, 'wb') as file:
+                file.write(file_response.content)
+            print(f"Downloaded and saved {filename}")
+        else:
+            print(f"Failed to download {file_url}: {file_response.status_code}")
+
+else:
+    print(f"Failed to fetch record: {response.status_code} - {response.text}")
+""" .
+
+<http://example.org/code/2> a prov:Entity ;
+    prov:value """import requests
+import os
+import crim_intervals
+from crim_intervals import *
+from crim_intervals import main_objs
+import crim_intervals.visualizations as viz
+
+
+# Define the base URL of your Invenio instance
+base_url = 'https://test.researchdata.tuwien.ac.at/api/records/'
+
+# Define the record ID you want to fetch
+record_id = '/drg37-1w668/files'
+
+# Your authentication token
+token = 'kwPkteIK7e6IsoVWh1DoG5IY2INb1LRw3QdWAqeWkjS7BUMVc9gQY2jEbL6e'
+
+# Define the headers including the Authorization token
+headers = {
+    'Authorization': f'Bearer {token}',
+    'Content-Type': 'application/json'
+}
+
+# Make a GET request to fetch the record
+response = requests.get(f'{base_url}{record_id}', headers=headers)
+
+# Check if the request was successful
+if response.status_code == 200:
+    data = response.json()
+    entries = data.get('entries')
+    # URL to the file content
+    for entry in entries:
+        file_url = entry['links']['content']
+
+        piece = importScore(file_url)
+
+
+        cadences = piece.cadences()
+        cadences
+
+
+
+        # Local file path to save the downloaded file
+        local_filename = os.path.join('data', entry['key'])
+
+        # Send a GET request to the URL
+        response = requests.get(file_url, stream=True)
+
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Open the local file in binary write mode
+            with open(local_filename, 'wb') as f:
+                # Write the content of the response to the file
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            print(f"File downloaded successfully and saved as {local_filename}")
+        else:
+            print(f"Failed to download file. Status code: {response.status_code}")
+else:
+    print(f'Failed to fetch data: {response.status_code}')
+""",
+        """import requests
+import os
+import crim_intervals
+from crim_intervals import *
+from crim_intervals import main_objs
+import crim_intervals.visualizations as viz
+
+
+# Define the base URL of your Invenio instance
+base_url = 'https://test.researchdata.tuwien.ac.at/api/records/'
+
+# Define the record ID you want to fetch
+record_id = '/drg37-1w668/files'
+
+# Your authentication token
+token = 'kwPkteIK7e6IsoVWh1DoG5IY2INb1LRw3QdWAqeWkjS7BUMVc9gQY2jEbL6e'
+
+# Define the headers including the Authorization token
+headers = {
+    'Authorization': f'Bearer {token}',
+    'Content-Type': 'application/json'
+}
+
+# Make a GET request to fetch the record
+response = requests.get(f'{base_url}{record_id}', headers=headers)
+
+# Check if the request was successful
+if response.status_code == 200:
+    data = response.json()
+    entries = data.get('entries')
+    # URL to the file content
+    for entry in entries:
+        file_url = entry['links']['content']
+
+        print(file_url)""",
+        """import requests
+import os
+import crim_intervals
+from crim_intervals import *
+from crim_intervals import main_objs
+import crim_intervals.visualizations as viz
+
+# Define the base URL of your Invenio instance
+base_url = 'https://test.researchdata.tuwien.ac.at/api/records/'
+
+# Define the record ID you want to fetch
+record_id = 'drg37-1w668/files'
+
+# Your authentication token
+token = 'kwPkteIK7e6IsoVWh1DoG5IY2INb1LRw3QdWAqeWkjS7BUMVc9gQY2jEbL6e'
+
+# Define the headers including the Authorization token
+headers = {
+    'Authorization': f'Bearer {token}',
+    'Content-Type': 'application/json'
+}
+
+# Make a GET request to fetch the record
+response = requests.get(f'{base_url}{record_id}', headers=headers)
+
+# Check if the request was successful
+if response.status_code == 200:
+    data = response.json()
+    entries = data.get('entries', [])
+    
+    # Create the directory if it doesn't exist
+    os.makedirs('downloaded_files', exist_ok=True)
+
+    # Download and save each file
+    for entry in entries:
+        file_url = entry['links']['content']
+        
+        # Get the filename from the URL
+        filename = os.path.join('downloaded_files', 'test.xml')
+
+        
+        # Download the file
+        file_response = requests.get(file_url, headers=headers)
+        
+        # Save the file
+        if file_response.status_code == 200:
+            with open(filename, 'wb') as file:
+                file.write(file_response.content)
+            print(f"Downloaded and saved {filename}")
+        else:
+            print(f"Failed to download {file_url}: {file_response.status_code}")
+
+else:
+    print(f"Failed to fetch record: {response.status_code} - {response.text}")
+""" .
+
+<http://example.org/module_version/2_0_37> a prov:Entity ;
+    rdfs:label "Module Version: 2.0.37" .
+
+<http://example.org/module_version/2_31_0> a prov:Entity ;
+    rdfs:label "Module Version: 2.31.0" .
+
+<http://example.org/epoch/Wed_10_Jul_2024_11_05_57_GMT> a prov:Activity ;
+    rdfs:label "Epoch starting at Wed, 10 Jul 2024 11:05:57 GMT" ;
+    prov:startedAtTime "Wed, 10 Jul 2024 11:05:57 GMT" ;
+    prov:used <http://example.org/kernel/ipython>,
+        <http://example.org/kernel_version/7_34_0>,
+        <http://example.org/language/python>,
+        <http://example.org/language_version/3_9_6>,
+        <http://example.org/module/crim_intervals>,
+        <http://example.org/module/os>,
+        <http://example.org/module/requests> ;
+    prov:wasAssociatedWith "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" .
+
+<http://example.org/epoch/Wed_10_Jul_2024_11_08_09_GMT> a prov:Activity ;
+    rdfs:label "Epoch starting at Wed, 10 Jul 2024 11:08:09 GMT" ;
+    prov:startedAtTime "Wed, 10 Jul 2024 11:08:09 GMT" ;
+    prov:used <http://example.org/kernel/ipython>,
+        <http://example.org/kernel_version/7_34_0>,
+        <http://example.org/language/python>,
+        <http://example.org/language_version/3_9_6>,
+        <http://example.org/module/crim_intervals>,
+        <http://example.org/module/os>,
+        <http://example.org/module/requests> ;
+    prov:wasAssociatedWith "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" .
+
+<http://example.org/epoch/Wed_10_Jul_2024_11_11_48_GMT> a prov:Activity ;
+    rdfs:label "Epoch starting at Wed, 10 Jul 2024 11:11:48 GMT" ;
+    prov:startedAtTime "Wed, 10 Jul 2024 11:11:48 GMT" ;
+    prov:used <http://example.org/kernel/ipython>,
+        <http://example.org/kernel_version/7_34_0>,
+        <http://example.org/language/python>,
+        <http://example.org/language_version/3_9_6>,
+        <http://example.org/module/crim_intervals>,
+        <http://example.org/module/os>,
+        <http://example.org/module/requests> ;
+    prov:wasAssociatedWith "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" .
+
+<http://example.org/import/_> a prov:Entity ;
+    rdfs:label "Import: *" .
+
+<http://example.org/import/crim_intervals> a prov:Entity ;
+    rdfs:label "Import: crim_intervals" .
+
+<http://example.org/import/os> a prov:Entity ;
+    rdfs:label "Import: os" .
+
+<http://example.org/import/requests> a prov:Entity ;
+    rdfs:label "Import: requests" .
+
+<http://example.org/kernel/ipython> a prov:Entity ;
+    rdfs:label "Kernel: ipython" .
+
+<http://example.org/kernel_version/7_34_0> a prov:Entity ;
+    rdfs:label "Kernel Version: 7.34.0" .
+
+<http://example.org/language/python> a prov:Entity ;
+    rdfs:label "Language: python" .
+
+<http://example.org/language_version/3_9_6> a prov:Entity ;
+    rdfs:label "Language Version: 3.9.6" .
+
+<http://example.org/module/crim_intervals> a prov:Entity ;
+    rdfs:label "Module: crim_intervals" ;
+    prov:hadPrimarySource <http://example.org/module_version/2_0_37> .
+
+<http://example.org/module/os> a prov:Entity ;
+    rdfs:label "Module: os" .
+
+<http://example.org/module/requests> a prov:Entity ;
+    rdfs:label "Module: requests" ;
+    prov:hadPrimarySource <http://example.org/module_version/2_31_0> .
+
