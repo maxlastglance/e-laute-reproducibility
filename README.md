@@ -4,7 +4,7 @@
 
 In the E-Laute project, we focus on the analysis of medieval lute tablatures by applying various models to extract information from these musical pieces. At this early stage of the project, our primary aim is to develop a robust pipeline for integrating data from different sources, facilitating the execution of reproducible experiments.
 
-This document addresses the reproducibility aspect of our work. After a thorough review of existing provenance tracking libraries, we chose to use MLProvLab, developed by Sheeba Samuel. MLProvLab is a Jupyter Lab extension designed to track all processes within notebooks. Upon completing a process, the extension allows for the export of data in JSON format. This exported JSON data can be processed using our custom script, `mlprovlab_rdf_conversion.py`, which converts the JSON into a Turtle file in the PROV-O format. This format is suitable for use in graph databases such as GraphDB. Below are some sample SPARQL queries that can be executed on the provenance data:
+This document addresses the reproducibility aspect of our work. After a thorough review of existing provenance tracking libraries, we chose to use MLProvLab [1]. MLProvLab is a Jupyter Lab extension designed to track all processes within notebooks. Upon completing a process, the extension allows for the export of data in JSON format. This exported JSON data can be processed using our custom script, `mlprovlab_rdf_conversion.py`, which converts the JSON into a Turtle file in the PROV-O format. This format is suitable for use in graph databases such as GraphDB. Below are some sample SPARQL queries that can be executed on the provenance data:
 
 ### Query: All Activities with Corresponding Code
 
@@ -88,3 +88,7 @@ For comprehensive provenance documentation, ensure that the experiment is runnin
    ```
 
 This documentation will help ensure that all experimental processes are tracked and reproducible, aiding in the validation and verification of results.
+
+## References
+
+[1]: Kerzel, Dominik, König-Ries, Birgitta, and Samuel, Sheeba. (2023). "MLProvLab: Provenance Management for Data Science Notebooks." In *BTW 2023*, Gesellschaft für Informatik e.V., Bonn, ISBN 978-3-88579-725-8, pp. 965-980. DOI: [10.18420/BTW2023-66](https://doi.org/10.18420/BTW2023-66).
