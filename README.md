@@ -76,7 +76,7 @@ For comprehensive provenance documentation, ensure that the experiment is runnin
 3. Launch Jupyter Lab:
 
    ```bash
-   python3 jupyter lab
+   jupyter lab
    ```
 
 4. Execute the cells in your notebook.
