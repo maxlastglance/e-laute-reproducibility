@@ -39,6 +39,13 @@ for epoch in data["epochs"]:
         g.add((epoch_uri, PROV.endedAtTime, Literal(epoch["time"])))
     g.add((epoch_uri, PROV.wasAssociatedWith, Literal(epoch["user_agent"])))
 
+    # Adding used data for the epoch
+    for used_data_url in data.get("used_data", []):
+        used_data_entity = create_uri("http://example.org/used_data/", used_data_url)
+        g.add((used_data_entity, RDF.type, PROV.Entity))
+        g.add((used_data_entity, RDFS.label, Literal(f"Used Data URL: {used_data_url}")))
+        g.add((epoch_uri, PROV.used, used_data_entity))
+
     # Add attributes to the activity (not used by PROV directly, but can be helpful)
     g.add((epoch_uri, RDFS.label, Literal(f"Epoch starting at {epoch_start_time}")))
 
@@ -88,6 +95,13 @@ for epoch in data["epochs"]:
         g.add((code_entity, RDF.type, PROV.Entity))
         g.add((code_entity, PROV.value, code_literal))
         g.add((exec_uri, PROV.generated, code_entity))
+
+        # Adding used data in execution data
+        for used_data_url in exec_data.get("used_data", []):
+            used_data_entity = create_uri("http://example.org/used_data/", used_data_url)
+            g.add((used_data_entity, RDF.type, PROV.Entity))
+            g.add((used_data_entity, RDFS.label, Literal(f"Used Data URL: {used_data_url}")))
+            g.add((exec_uri, PROV.used, used_data_entity))
 
         # Add imports as entities
         for imp in exec_data.get("imports", []):
